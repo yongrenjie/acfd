@@ -1,0 +1,18 @@
+(test
+ (name test_acfd)
+ (libraries acfd ounit2))
+
+; things I learnt
+
+; the name must correspond to the name of the .ml file
+
+; note that the 'name' field should be renamed to something different from the
+; library to stop the LSP from giving 'unbound module' errors.
+
+; the name 'acfd' in libraries must correspond to the public_name field in the
+; library component.
+
+; in principle it should be possible to have more than one test file, using a
+; `tests` stanza instead of `test, but I'll figure it out another time
+
+; not sure why the defaults from `dune init` give such wonky behaviour

@@ -1,0 +1,5 @@
+(library
+ (name Acfd)
+ (public_name acfd))
+
+; public_name is apparently needed so that tests can access library code.
