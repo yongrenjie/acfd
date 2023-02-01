@@ -1,8 +1,7 @@
 open Acfd;;
 
-let () = print_endline (
-    if (FindAcro.is_acro "HSQC" 2)
-    then "HSQC is an acronym (I think)"
-    else "HSQC isn't an acronym for some reason"
-    )
+
+let acronyms = FindAcro.find_acro ~min_caps:3 "NMR includes experiments such as COSY, HSQC, and HMBC."
+
+let () = acronyms |> List.map FindAcro.show_acronym |> List.iter print_endline
 ;;

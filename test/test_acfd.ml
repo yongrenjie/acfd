@@ -4,8 +4,8 @@ open Acfd;;
 
 let test_is_acro = 
     "is_acro" >:::
-        [ "hello" >:: (fun _ -> assert_equal false (FindAcro.is_acro "hello" 2));
-          "NMR" >:: (fun _ -> assert_equal true (FindAcro.is_acro "NMR" 2));
+        [ "hello" >:: (fun _ -> assert_equal false (FindAcro.is_acro "hello"));
+          "NMR" >:: (fun _ -> assert_equal true (FindAcro.is_acro "NMR"));
         ]
 ;;
 
