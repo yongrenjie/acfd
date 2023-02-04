@@ -1,4 +1,4 @@
 (executable
  (public_name acfd)
  (name main)
- (libraries acfd))
+ (libraries acfd cmdliner))

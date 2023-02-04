@@ -16,7 +16,7 @@ let n_locations file_map =
 type location = { file : string; line : int; column : int }
 
 (** Pretty-print an acronym into a string. *)
-let show_acronym acro locations : string =
+let show_acronym_long acro locations : string =
   let show_locations (locs : (int * int) list) =
     locs
     |> List.map (fun t -> string_of_int (fst t) ^ ":" ^ string_of_int (snd t))
@@ -28,9 +28,36 @@ let show_acronym acro locations : string =
   in
   acro ^ loc_info
 
+(** Pretty-print an acronym into a shorter string. *)
+let show_acronym_short acro locations : string =
+  let show_locations (locs : (int * int) list) =
+    let first_loc =
+      locs |> List.hd |> fun t ->
+      string_of_int (fst t) ^ ":" ^ string_of_int (snd t)
+    in
+    let other_locs =
+      if List.length locs > 1 then
+        " [+" ^ string_of_int (List.length locs - 1) ^ "]"
+      else ""
+    in
+    first_loc ^ other_locs
+  in
+  let loc_info =
+    locations |> FileMap.map show_locations |> fun m ->
+    FileMap.fold (fun k loc_str s -> s ^ "\n    " ^ k ^ ":" ^ loc_str) m ""
+  in
+  acro ^ loc_info
+
 (** Pretty-print a set of acronyms on stdout. *)
-let print_acronyms (acros : (int * int) list FileMap.t AcroMap.t) =
-  AcroMap.iter (fun a l -> print_endline (show_acronym a l)) acros
+let print_acronyms (verbosity : int)
+    (acros : (int * int) list FileMap.t AcroMap.t) =
+  let show =
+    match verbosity with
+    | 0 -> fun a _ -> a
+    | 1 -> show_acronym_short
+    | _ -> show_acronym_long
+  in
+  AcroMap.iter (fun a l -> print_endline (show a l)) acros
 
 (** [is_word_char] determines whether a character is part of a word. As of now,
     \[A-Za-z\] and hyphens are considered part of a word. This is somewhat
